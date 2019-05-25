@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  devtools:
+    livereload:
+      port: 10580
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+profile-service:
+    storage:
+      image-storage-url: http://127.0.0.1:8081/image-storage/images
+      profile-storage-url: http://127.0.0.1:8080/profile-storage/profile
+      batch-images-size: 10

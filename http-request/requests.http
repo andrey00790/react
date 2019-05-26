@@ -1,0 +1,16 @@
+GET {{image-service-host}}/image-storage/images/10
+Accept: application/json;charset=UTF-8
+
+###
+
+GET {{profile-storage-host}}/profile-storage/profile
+Accept: application/json;charset=UTF-8
+
+###
+
+
+
+GET {{user-profile-service-host}}/user-profile-service/user-profile
+Accept: application/json;charset=UTF-8
+
+###

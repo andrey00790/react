@@ -1,7 +1,7 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-//            project(':speed-adjuster-starter'),
+            project(':async-adjust-starter')
             project(':metrics-starter')
 
     runtimeClasspath 'org.springframework.boot:spring-boot-devtools'

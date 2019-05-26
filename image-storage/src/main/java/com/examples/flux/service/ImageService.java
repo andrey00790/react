@@ -6,6 +6,11 @@ import io.micrometer.core.instrument.MeterRegistry;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 @Service
 @Getter
 public class ImageService {
@@ -26,4 +31,14 @@ public class ImageService {
             counter.increment();
         }
     }
+
+    public List<Image> getImages(int size){
+        return IntStream.range(0, size)
+                .mapToObj(i -> CompletableFuture.supplyAsync(this::getImage))
+                .collect(Collectors.toList())
+                .stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+    }
+
 }

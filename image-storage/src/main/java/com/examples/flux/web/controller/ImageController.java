@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,17 +26,10 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @GetMapping("image")
-    public ResponseEntity<Image> getProfile() {
-        return ResponseEntity.ok(imageService.getImage());
-    }
 
+    @Async("asyncProcessorExecutor")
     @GetMapping("images/{size}")
-    public ResponseEntity<List<Image>> getProfile(@PathVariable int size) {
-        return ResponseEntity.ok(
-                IntStream.range(0,size)
-                .mapToObj(i -> imageService.getImage())
-                .collect(Collectors.toList())
-        );
+    public CompletableFuture<ResponseEntity<List<Image>>> getProfile(@PathVariable int size) {
+        return CompletableFuture.completedFuture(ResponseEntity.ok(imageService.getImages(size)));
     }
 }
